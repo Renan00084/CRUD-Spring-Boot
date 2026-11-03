@@ -1,53 +1,85 @@
+
 <!doctype html>
-<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml" data-bs-theme="dark">
+<html lang="pt-BR"
+      xmlns:th="http://www.thymeleaf.org"
+      data-bs-theme="dark">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Detalhes do Usuário</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
+
 <body>
+
 <div class="container pt-3">
-    <a th:href="@{'/users/index'}" class="btn btn-secondary float-end">Voltar para Lista</a>
+
+    <a th:href="@{/users/index}"
+       class="btn btn-secondary float-end">
+        Voltar para Lista
+    </a>
+
     <h1>Detalhes do Usuário</h1>
     <hr>
 
     <div class="card mt-4" style="max-width: 600px;">
+
         <div class="card-header">
-            <strong>Usuário #<span th:text="${user.id}">1</span></strong>
+            <strong>
+                Usuário #
+                <span th:text="${user.id}">1</span>
+            </strong>
         </div>
+
         <div class="card-body">
+
             <ul class="list-group list-group-flush">
+
                 <li class="list-group-item">
-                    <strong>Nome:</strong> <span th:text="${user.name}">Mark</span>
+                    <strong>Nome:</strong>
+                    <span th:text="${user.name}">Nome</span>
                 </li>
+
                 <li class="list-group-item">
-                    <strong>Arroba:</strong> <span th:text="${user.arroba}">Otto</span>
+                    <strong>Arroba:</strong>
+                    <span th:text="${user.arroba}">@usuario</span>
                 </li>
+
                 <li class="list-group-item">
-                    <strong>CPF:</strong> <span th:text="${user.cpf}">000.000.000-00</span>
+                    <strong>CPF:</strong>
+                    <span th:text="${user.cpf}">000.000.000-00</span>
                 </li>
+
             </ul>
+
         </div>
+
         <div class="card-footer d-flex gap-2">
-            <!-- Botão de Editar -->
-            <a th:href="@{|/users/edit/${user.id}|}" class="btn btn-primary">
+
+            <a th:href="@{/users/edit/{id}(id=${user.id})}"
+               class="btn btn-primary">
                 <i class="bi bi-pencil"></i> Editar
             </a>
 
-            <a th:href="@{/users/delete/{id}(id=${user.id})}">
-                <button type="button" class="btn btn-danger bi bi-trash">Excluir</button>
+            <a th:href="@{/users/delete/{id}(id=${user.id})}"
+               class="btn btn-danger">
+                <i class="bi bi-trash"></i> Excluir
             </a>
 
         </div>
+
     </div>
 
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

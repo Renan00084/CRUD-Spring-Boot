@@ -1,52 +1,32 @@
 package com.renan.teste_spring.model;
 
-public class User {
-    private long id;
-    private String name;
-    private String arroba;
-    private String cpf;
+import org.javalite.activejdbc.Model;
+import org.javalite.activejdbc.annotations.Table;
 
-    public User (){
-
-    }
-
-    public User(long id, String name, String arroba, String cpf){
-        this.id = id;
-        this.arroba = arroba;
-        this.name = name;
-        this.cpf = cpf;
-
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getArroba() {
-        return arroba;
-    }
+@Table("users")
+public class User extends Model {
 
     public String getName() {
-        return name;
-    }
-
-    public void setArroba(String arroba) {
-        this.arroba = arroba;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        return getString("name");
     }
 
     public void setName(String name) {
-        this.name = name;
+        set("name", name);
+    }
+
+    public String getArroba() {
+        return getString("arroba");
+    }
+
+    public void setArroba(String arroba) {
+        set("arroba", arroba);
+    }
+
+    public String getCpf() {
+        return getString("cpf");
+    }
+
+    public void setCpf(String cpf) {
+        set("cpf", cpf);
     }
 }
