@@ -1,46 +1,54 @@
 package com.renan.teste_spring.controllers;
 
 import com.renan.teste_spring.model.Game;
+import org.javalite.activejdbc.Base;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/games")
 public class GameController {
 
-    private List<Game> listGame = new ArrayList<Game>();
-
     @GetMapping("/index")
     public String index(ModelMap model) {
-        model.addAttribute("games", listGame);
-        model.addAttribute("size", listGame.size());
-        return "games/index";
+
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
+
+        try {
+            List<Game> listGame = Game.findAll();
+
+            model.addAttribute("games", listGame);
+            model.addAttribute("size", listGame.size());
+
+        } finally {
+            Base.close();
+        }
+
+        return "Games/index";
     }
 
     @GetMapping("/new")
     public String gameNew(ModelMap model) {
+
         model.addAttribute("game", new Game());
-        return "games/new";
+
+        return "Games/new";
     }
 
     @PostMapping("/create")
-    public String gameCreate(@ModelAttribute Game game, ModelMap model) {
+    public String gameCreate(@ModelAttribute Game game) {
 
-        System.out.println("############ criando novo jogo ##########################");
-        System.out.println("Nome: " + game.getNome());
-        System.out.println("Gênero: " + game.getGenero());
-        System.out.println("Plataforma: " + game.getPlataforma());
-        System.out.println("######################################");
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        long id = listGame.size() + 1;
+        try {
+            game.saveIt();
 
-        listGame.add(new Game(id, game.getNome(), game.getGenero(), game.getPlataforma()));
-
-        model.addAttribute("game", game);
+        } finally {
+            Base.close();
+        }
 
         return "redirect:/games/index";
     }
@@ -48,34 +56,45 @@ public class GameController {
     @GetMapping("/edit/{id}")
     public String editGame(@PathVariable Long id, ModelMap model) {
 
-        int idInt = Math.toIntExact(id - 1L);
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        Game gameEdit = listGame.get(idInt);
+        try {
+            Game gameEdit = Game.findById(id);
 
-        model.addAttribute("game", gameEdit);
+            if (gameEdit == null) {
+                return "redirect:/games/index";
+            }
 
-        return "games/edit";
+            model.addAttribute("game", gameEdit);
+
+        } finally {
+            Base.close();
+        }
+
+        return "Games/edit";
     }
 
     @PostMapping("/update/{id}")
-    public String gameUpdate(@PathVariable Long id, @ModelAttribute Game game, ModelMap model) {
+    public String gameUpdate(@PathVariable Long id,
+                             @ModelAttribute Game game) {
 
-        System.out.println("############ EDITANDO jogo ##########################");
-        System.out.println("ID: " + game.getId());
-        System.out.println("Nome: " + game.getNome());
-        System.out.println("Gênero: " + game.getGenero());
-        System.out.println("Plataforma: " + game.getPlataforma());
-        System.out.println("######################################");
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        int idInt = Math.toIntExact(id - 1L);
+        try {
+            Game gameEdit = Game.findById(id);
 
-        Game gameEdit = listGame.get(idInt);
+            if (gameEdit != null) {
 
-        gameEdit.setNome(game.getNome());
-        gameEdit.setGenero(game.getGenero());
-        gameEdit.setPlataforma(game.getPlataforma());
+                gameEdit.setNome(game.getNome());
+                gameEdit.setGenero(game.getGenero());
+                gameEdit.setPlataforma(game.getPlataforma());
 
-        model.addAttribute("game", game);
+                gameEdit.saveIt();
+            }
+
+        } finally {
+            Base.close();
+        }
 
         return "redirect:/games/index";
     }
@@ -83,21 +102,39 @@ public class GameController {
     @GetMapping("/show/{id}")
     public String show(@PathVariable Long id, ModelMap model) {
 
-        int idInt = Math.toIntExact(id - 1L);
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        Game gameShow = listGame.get(idInt);
+        try {
+            Game gameShow = Game.findById(id);
 
-        model.addAttribute("game", gameShow);
+            if (gameShow == null) {
+                return "redirect:/games/index";
+            }
 
-        return "games/show";
+            model.addAttribute("game", gameShow);
+
+        } finally {
+            Base.close();
+        }
+
+        return "Games/show";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteGame(@PathVariable Long id) {
 
-        int idInt = Math.toIntExact(id - 1L);
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        listGame.remove(idInt);
+        try {
+            Game game = Game.findById(id);
+
+            if (game != null) {
+                game.delete();
+            }
+
+        } finally {
+            Base.close();
+        }
 
         return "redirect:/games/index";
     }

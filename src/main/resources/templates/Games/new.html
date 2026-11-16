@@ -1,22 +1,25 @@
 <!doctype html>
-<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml" data-bs-theme="dark">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Novo Jogo</title>
+    <title>Novo Game</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 
 <body>
 
 <div class="container pt-3">
 
-    <a th:href="@{'/games/index'}" class="btn btn-primary float-end">Voltar</a>
+    <a th:href="@{/games/index}" class="btn btn-primary float-end">
+        Voltar
+    </a>
 
-    <h1>Novo Jogo</h1>
+    <h1>Novo Game</h1>
 
     <hr>
 
@@ -25,36 +28,41 @@
           th:object="${game}">
 
         <div class="mb-3">
-
             <label for="nome" class="form-label">Nome</label>
 
-            <input type="text" class="form-control" id="nome" name="nome" th:field="*{nome}">
-
+            <input type="text"
+                   class="form-control"
+                   id="nome"
+                   name="nome">
         </div>
 
         <div class="mb-3">
-
             <label for="genero" class="form-label">Gênero</label>
 
-            <input type="text" class="form-control" id="genero" name="genero" th:field="*{genero}">
-
+            <input type="text"
+                   class="form-control"
+                   id="genero"
+                   name="genero">
         </div>
 
         <div class="mb-3">
-
             <label for="plataforma" class="form-label">Plataforma</label>
 
-            <input type="text" class="form-control" id="plataforma" name="plataforma" th:field="*{plataforma}">
-
+            <input type="text"
+                   class="form-control"
+                   id="plataforma"
+                   name="plataforma">
         </div>
 
-        <button type="submit" class="btn btn-primary">Cadastrar</button>
+        <button type="submit" class="btn btn-primary">
+            Submit
+        </button>
 
     </form>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrVwcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

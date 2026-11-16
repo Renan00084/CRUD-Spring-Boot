@@ -1,57 +1,57 @@
 <!doctype html>
-<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml" data-bs-theme="dark">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Lista de Jogos</title>
+    <title>Lista de Games</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 
 <body>
 
 <div class="container pt-3">
 
-    <a th:href="@{'/games/new'}" class="btn btn-primary float-end">Novo Jogo</a>
+    <a th:href="@{/games/new}" class="btn btn-primary float-end">
+        Novo Game
+    </a>
 
-    <h1>Lista de Jogos (<span th:text="${size}">0</span>)</h1>
+    <h1>Lista de Games (<span th:text="${size}">0</span>)</h1>
 
     <hr>
 
     <table class="table">
 
         <thead>
-
         <tr>
-
             <th scope="col">#</th>
             <th scope="col">Nome</th>
             <th scope="col">Gênero</th>
             <th scope="col">Plataforma</th>
             <th scope="col">Ações</th>
-
         </tr>
-
         </thead>
 
         <tbody>
 
         <tr th:each="game : ${games}">
 
-            <th scope="row" th:text="${game.getId}">1</th>
+            <th scope="row" th:text="${game.id}">1</th>
 
-            <td th:text="${game.getNome}">Minecraft</td>
+            <td th:text="${game.nome}">GTA V</td>
 
-            <td th:text="${game.getGenero}">Aventura</td>
+            <td th:text="${game.genero}">Ação</td>
 
-            <td th:text="${game.getPlataforma}">PC</td>
+            <td th:text="${game.plataforma}">PC</td>
 
             <td>
-
-                <a th:href="@{|/games/show/${game.id}|}" class="btn btn-danger">Detalhes</a>
-
+                <a th:href="@{|/games/show/${game.id}|}"
+                   class="btn btn-danger">
+                    Detalhes
+                </a>
             </td>
 
         </tr>
@@ -62,7 +62,7 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

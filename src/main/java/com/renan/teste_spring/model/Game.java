@@ -1,51 +1,32 @@
 package com.renan.teste_spring.model;
 
-public class Game {
+import org.javalite.activejdbc.Model;
+import org.javalite.activejdbc.annotations.Table;
 
-    private Long id;
-    private String nome;
-    private String genero;
-    private String plataforma;
-
-    public Game() {
-    }
-
-    public Game(Long id, String nome, String genero, String plataforma) {
-        this.id = id;
-        this.nome = nome;
-        this.genero = genero;
-        this.plataforma = plataforma;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+@Table("games")
+public class Game extends Model {
 
     public String getNome() {
-        return nome;
+        return getString("nome");
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        set("nome", nome);
     }
 
     public String getGenero() {
-        return genero;
+        return getString("genero");
     }
 
     public void setGenero(String genero) {
-        this.genero = genero;
+        set("genero", genero);
     }
 
     public String getPlataforma() {
-        return plataforma;
+        return getString("plataforma");
     }
 
     public void setPlataforma(String plataforma) {
-        this.plataforma = plataforma;
+        set("plataforma", plataforma);
     }
 }

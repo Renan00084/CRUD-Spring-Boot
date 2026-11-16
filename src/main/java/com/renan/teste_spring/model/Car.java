@@ -1,51 +1,32 @@
 package com.renan.teste_spring.model;
 
-public class Car {
+import org.javalite.activejdbc.Model;
+import org.javalite.activejdbc.annotations.Table;
 
-    private Long id;
-    private String marca;
-    private String modelo;
-    private int ano;
-
-    public Car() {
-    }
-
-    public Car(Long id, String marca, String modelo, int ano) {
-        this.id = id;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.ano = ano;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+@Table("cars")
+public class Car extends Model {
 
     public String getMarca() {
-        return marca;
+        return getString("marca");
     }
 
     public void setMarca(String marca) {
-        this.marca = marca;
+        set("marca", marca);
     }
 
     public String getModelo() {
-        return modelo;
+        return getString("modelo");
     }
 
     public void setModelo(String modelo) {
-        this.modelo = modelo;
+        set("modelo", modelo);
     }
 
     public int getAno() {
-        return ano;
+        return getInteger("ano");
     }
 
     public void setAno(int ano) {
-        this.ano = ano;
+        set("ano", ano);
     }
 }

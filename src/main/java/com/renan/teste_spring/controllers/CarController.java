@@ -1,46 +1,54 @@
 package com.renan.teste_spring.controllers;
 
 import com.renan.teste_spring.model.Car;
+import org.javalite.activejdbc.Base;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/cars")
 public class CarController {
 
-    private List<Car> listCar = new ArrayList<Car>();
-
     @GetMapping("/index")
     public String index(ModelMap model) {
-        model.addAttribute("cars", listCar);
-        model.addAttribute("size", listCar.size());
-        return "cars/index";
+
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
+
+        try {
+            List<Car> listCar = Car.findAll();
+
+            model.addAttribute("cars", listCar);
+            model.addAttribute("size", listCar.size());
+
+        } finally {
+            Base.close();
+        }
+
+        return "Cars/index";
     }
 
     @GetMapping("/new")
     public String carNew(ModelMap model) {
+
         model.addAttribute("car", new Car());
-        return "cars/new";
+
+        return "Cars/new";
     }
 
     @PostMapping("/create")
-    public String carCreate(@ModelAttribute Car car, ModelMap model) {
+    public String carCreate(@ModelAttribute Car car) {
 
-        System.out.println("############ criando novo carro ##########################");
-        System.out.println("Marca: " + car.getMarca());
-        System.out.println("Modelo: " + car.getModelo());
-        System.out.println("Ano: " + car.getAno());
-        System.out.println("######################################");
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        long id = listCar.size() + 1;
+        try {
+            car.saveIt();
 
-        listCar.add(new Car(id, car.getMarca(), car.getModelo(), car.getAno()));
-
-        model.addAttribute("car", car);
+        } finally {
+            Base.close();
+        }
 
         return "redirect:/cars/index";
     }
@@ -48,34 +56,45 @@ public class CarController {
     @GetMapping("/edit/{id}")
     public String editCar(@PathVariable Long id, ModelMap model) {
 
-        int idInt = Math.toIntExact(id - 1L);
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        Car carEdit = listCar.get(idInt);
+        try {
+            Car carEdit = Car.findById(id);
 
-        model.addAttribute("car", carEdit);
+            if (carEdit == null) {
+                return "redirect:/cars/index";
+            }
 
-        return "cars/edit";
+            model.addAttribute("car", carEdit);
+
+        } finally {
+            Base.close();
+        }
+
+        return "Cars/edit";
     }
 
     @PostMapping("/update/{id}")
-    public String carUpdate(@PathVariable Long id,@ModelAttribute Car car, ModelMap model) {
+    public String carUpdate(@PathVariable Long id,
+                            @ModelAttribute Car car) {
 
-        System.out.println("############ EDITANDO carro ##########################");
-        System.out.println("ID: " + car.getId());
-        System.out.println("Marca: " + car.getMarca());
-        System.out.println("Modelo: " + car.getModelo());
-        System.out.println("Ano: " + car.getAno());
-        System.out.println("######################################");
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        int idInt = Math.toIntExact(id - 1L);
+        try {
+            Car carEdit = Car.findById(id);
 
-        Car carEdit = listCar.get(idInt);
+            if (carEdit != null) {
 
-        carEdit.setMarca(car.getMarca());
-        carEdit.setModelo(car.getModelo());
-        carEdit.setAno(car.getAno());
+                carEdit.setMarca(car.getMarca());
+                carEdit.setModelo(car.getModelo());
+                carEdit.setAno(car.getAno());
 
-        model.addAttribute("car", car);
+                carEdit.saveIt();
+            }
+
+        } finally {
+            Base.close();
+        }
 
         return "redirect:/cars/index";
     }
@@ -83,21 +102,39 @@ public class CarController {
     @GetMapping("/show/{id}")
     public String show(@PathVariable Long id, ModelMap model) {
 
-        int idInt = Math.toIntExact(id - 1L);
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        Car carShow = listCar.get(idInt);
+        try {
+            Car carShow = Car.findById(id);
 
-        model.addAttribute("car", carShow);
+            if (carShow == null) {
+                return "redirect:/cars/index";
+            }
 
-        return "cars/show";
+            model.addAttribute("car", carShow);
+
+        } finally {
+            Base.close();
+        }
+
+        return "Cars/show";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteCar(@PathVariable Long id) {
 
-        int idInt = Math.toIntExact(id - 1L);
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
-        listCar.remove(idInt);
+        try {
+            Car car = Car.findById(id);
+
+            if (car != null) {
+                car.delete();
+            }
+
+        } finally {
+            Base.close();
+        }
 
         return "redirect:/cars/index";
     }

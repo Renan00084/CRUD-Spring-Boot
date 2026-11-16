@@ -13,16 +13,10 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    // LISTAR USUARIOS
     @GetMapping("/index")
     public String index(ModelMap model) {
 
-        Base.open(
-                "org.sqlite.JDBC",
-                "jdbc:sqlite:Usuarios",
-                "",
-                ""
-        );
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
         try {
             List<User> listUser = User.findAll();
@@ -37,7 +31,6 @@ public class UserController {
         return "users/index";
     }
 
-    // ABRIR FORMULARIO DE CADASTRO
     @GetMapping("/new")
     public String userNew(ModelMap model) {
 
@@ -46,16 +39,10 @@ public class UserController {
         return "users/new";
     }
 
-    // CADASTRAR USUARIO
     @PostMapping("/create")
     public String userCreate(@ModelAttribute User user) {
 
-        Base.open(
-                "org.sqlite.JDBC",
-                "jdbc:sqlite:Usuarios",
-                "",
-                ""
-        );
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
         try {
             user.saveIt();
@@ -67,18 +54,10 @@ public class UserController {
         return "redirect:/users/index";
     }
 
-    // ABRIR FORMULARIO DE EDICAO
     @GetMapping("/edit/{id}")
-    public String editUser(
-            @PathVariable Long id,
-            ModelMap model) {
+    public String editUser(@PathVariable Long id, ModelMap model) {
 
-        Base.open(
-                "org.sqlite.JDBC",
-                "jdbc:sqlite:Usuarios",
-                "",
-                ""
-        );
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
         try {
             User userEdit = User.findById(id);
@@ -96,18 +75,10 @@ public class UserController {
         return "users/edit";
     }
 
-    // ATUALIZAR USUARIO
     @PostMapping("/update/{id}")
-    public String userUpdate(
-            @PathVariable Long id,
-            @ModelAttribute User user) {
+    public String userUpdate(@PathVariable Long id, @ModelAttribute User user) {
 
-        Base.open(
-                "org.sqlite.JDBC",
-                "jdbc:sqlite:Usuarios",
-                "",
-                ""
-        );
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
         try {
             User userEdit = User.findById(id);
@@ -132,12 +103,7 @@ public class UserController {
     @GetMapping("/show/{id}")
     public String show(@PathVariable Long id, ModelMap model) {
 
-        Base.open(
-                "org.sqlite.JDBC",
-                "jdbc:sqlite:Usuarios",
-                "",
-                ""
-        );
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
         try {
 
@@ -156,16 +122,10 @@ public class UserController {
         return "users/show";
     }
 
-    // EXCLUIR USUARIO
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
 
-        Base.open(
-                "org.sqlite.JDBC",
-                "jdbc:sqlite:Usuarios",
-                "",
-                ""
-        );
+        Base.open("org.sqlite.JDBC", "jdbc:sqlite:Usuarios", "", "");
 
         try {
             User user = User.findById(id);
